@@ -12,14 +12,14 @@ const AGE_STD = 20.0;    // <--- REPLACE THIS VALUE
 function getOneHotState(jobState) {
     // You MUST calculate the exact number of OHE columns for job_state 
     // and ensure the indices match your Python ColumnTransformer output order.
-    let stateArray = new Array(40).fill(0.0); // Size of your OHE output for states
+    let stateArray = new Array(38).fill(0.0); // Size of your OHE output for states
 
     switch (jobState) {
         case 'CA': stateArray[0] = 1.0; break; // Check the index!
         case 'NY': stateArray[1] = 1.0; break; // Check the index!
         case 'VA': stateArray[2] = 1.0; break; // Check the index!
         // ... add all other states and their corresponding index 
-        default: stateArray[40-1] = 1.0; break; // Set the 'Others' column (or last column)
+        default: stateArray[38] = 1.0; break; // Set the 'Others' column (or last column)
     }
     return stateArray;
 }
@@ -92,4 +92,5 @@ async function runInference() {
     } catch (e) {
         document.getElementById('output').innerText = `Prediction Error: ${e.message}`;
     }
+
 }
