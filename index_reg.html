@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Regression: Salary Prediction Deployment</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+        button { margin-top: 20px; padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        #output { margin-top: 30px; font-size: 1.2em; font-weight: bold; padding: 10px; border: 1px solid #ccc; }
+        .feature-group { border: 1px solid #eee; padding: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Data Scientist Salary Predictor</h1>
+    <p>Predicts average salary (in $K) based on company and job features.</p>
+    
+    <div class="feature-group">
+        <h2>Job Features</h2>
+        
+        <label for="rating">Glassdoor Rating (1.0 - 5.0):</label>
+        <input type="number" id="rating" value="3.5" step="0.1" min="1.0" max="5.0">
+
+        <label for="age">Company Age (Years):</label>
+        <input type="number" id="age" value="10" min="0">
+
+        <label for="job_state">Job State (Crucial for OHE):</label>
+        <select id="job_state">
+            <option value="CA">CA - California</option>
+            <option value="NY">NY - New York</option>
+            <option value="VA">VA - Virginia</option>
+            <option value="TX">TX - Texas</option>
+            <option value="MD">MD - Maryland</option>
+            <option value="Others">Others (Default)</option>
+        </select>
+    </div>
+    
+    <div class="feature-group">
+        <h2>Skill Features (Binary 1/0)</h2>
+        <label for="python_yn">Python Required:</label>
+        <input type="number" id="python_yn" value="1" min="0" max="1">
+
+        <label for="R_yn">R Required:</label>
+        <input type="number" id="R_yn" value="0" min="0" max="1">
+        </div>
+
+    <button onclick="runInference()">Predict Salary</button>
+    
+    <div id="output">Prediction will appear here...</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/onnxruntime-web.min.js"></script>
+    
+    <script src="regression_inference.js"></script>
+</body>
+</html>

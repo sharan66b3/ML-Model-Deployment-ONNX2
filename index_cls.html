@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classification: Python Skill Prediction Deployment</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+        button { margin-top: 20px; padding: 10px 15px; background-color: #2196F3; color: white; border: none; cursor: pointer; }
+        #output_cls { margin-top: 30px; font-size: 1.2em; font-weight: bold; padding: 10px; border: 1px solid #ccc; }
+        .feature-group { border: 1px solid #eee; padding: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Python Requirement Classifier</h1>
+    <p>Predicts if a Data Scientist job requires Python (1: Yes, 0: No).</p>
+    
+    <div class="feature-group">
+        <h2>Job & Company Features</h2>
+        
+        <label for="avg_salary">Average Salary (K):</label>
+        <input type="number" id="avg_salary" value="100" step="1">
+        
+        <label for="rating_cls">Glassdoor Rating (1.0 - 5.0):</label>
+        <input type="number" id="rating_cls" value="3.5" step="0.1" min="1.0" max="5.0">
+
+        <label for="min_salary">Minimum Salary (K):</label>
+        <input type="number" id="min_salary" value="80" min="0">
+
+        <label for="job_state_cls">Job State (Crucial for OHE):</label>
+        <select id="job_state_cls">
+            <option value="CA">CA</option>
+            <option value="NY">NY</option>
+            <option value="TX">TX</option>
+            <option value="Others">Others</option>
+        </select>
+        
+        <label for="size_cls">Company Size:</label>
+        <select id="size_cls">
+            <option value="1-50">1-50 employees</option>
+            <option value="51-200">51-200 employees</option>
+            <option value="501-1000">501-1000 employees</option>
+            <option value="10000+">10000+ employees</option>
+            <option value="-1">Unknown (-1)</option>
+        </select>
+    </div>
+
+    <button onclick="runInferenceCls()">Predict Python Requirement</button>
+    
+    <div id="output_cls">Prediction will appear here...</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/onnxruntime-web.min.js"></script>
+    
+    <script src="classification_inference.js"></script>
+</body>
+</html>
