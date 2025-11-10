@@ -19,7 +19,7 @@ function getOneHotState(jobState) {
         case 'NY': stateArray[1] = 1.0; break; // Check the index!
         case 'VA': stateArray[2] = 1.0; break; // Check the index!
         // ... add all other states and their corresponding index 
-        default: stateArray[38] = 1.0; break; // Set the 'Others' column (or last column)
+        default: stateArray[37] = 1.0; break; // Set the 'Others' column (or last column)
     }
     return stateArray;
 }
@@ -46,25 +46,36 @@ function preprocessInputs() {
     const jobState = document.getElementById('job_state').value;
     const python_yn = parseFloat(document.getElementById('python_yn').value);
     const R_yn = parseFloat(document.getElementById('R_yn').value);
-    // ... collect other binary features ...
-
+    
+    // FIX: ADD THE 3 MISSING BINARY FEATURES AND SET THEM TO 0.0
+    const spark_yn = 0.0; 
+    const aws_yn = 0.0;
+    const excel_yn = 0.0;
+    
     const scaledRating = (rating - RATING_MEAN) / RATING_STD;
     const scaledAge = (age - AGE_MEAN) / AGE_STD;
 
     const oneHotStates = getOneHotState(jobState); 
 
-    // Combine all features into the final 45-element array (must be in correct order!)
+    // Combine all features into the final 45-element array (MUST BE IN CORRECT ORDER!)
     const processedArray = [
-        // Scaled Numeric Features
+        // Scaled Numeric Features (2)
         scaledRating, scaledAge, 
-        // OHE State Features
+        
+        // OHE State Features (38)
         ...oneHotStates, 
-        // Binary Features (must include all 5 binary features in order: python_yn, R_yn, spark, aws, excel)
-        python_yn, R_yn, /* spark, aws, excel */
+        
+        // Binary Features (5) - NOW CORRECTLY INCLUDES ALL 5
+        python_yn, 
+        R_yn, 
+        spark_yn, // <--- ADDED
+        aws_yn,   // <--- ADDED
+        excel_yn, // <--- ADDED
     ]; 
 
+    // This check will now pass: 2 + 38 + 5 = 45
     if (processedArray.length !== 45) {
-         throw new Error(`Feature count mismatch: Expected 45, got ${processedArray.length}. Check your OHE array size.`);
+        throw new Error(`Feature count mismatch: Expected 45, got ${processedArray.length}.`);
     }
     
     return new Float32Array(processedArray);
@@ -94,3 +105,4 @@ async function runInference() {
     }
 
 }
+
